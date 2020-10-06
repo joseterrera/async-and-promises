@@ -5,4 +5,11 @@ async function getData(favNumber = 5) {
   console.log(data)
 }
 
-getData()
+// getData(6)
+
+async function getMultipleNumbers(favNumbers = [1,5,9]) {
+  let data = await axios.get(`${url}/${favNumbers}?json`)
+  console.log(data)
+}
+
+getMultipleNumbers([6,7,8])
