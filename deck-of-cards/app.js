@@ -66,6 +66,7 @@ function generateHTML(srcLink){
     if (cardsRemaining === 0) {
       button.style.cursor = 'not-allowed'
       button.style.pointerEvents = 'none'
+      button.style.backgroundColor = '#ddd'
     }
   })
  }
