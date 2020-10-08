@@ -66,26 +66,39 @@ function generateHTML(srcLink){
 }
 
 
+//Exercise 3
 
- async function drawCards() {
-  let cardsDrawed = []
-  let response = await axios.get(`${baseURL}/new/shuffle`)
-  let deckId = response.data.deck_id;
+let deckIdCard = null
+let cardsRemaining = null
+let cardsDrawed = []
 
-  button.addEventListener('click', async function() {
-    let newCard = await axios.get(`${baseURL}/${deckId}/draw`)
-
-    let cardSrc = newCard.data.cards[0].image;
-    let cardsRemaining = newCard.data.remaining;
-
-    cardsDrawed.push(generateHTML(cardSrc))
-    listEl.innerHTML = cardsDrawed.join('\n\n')
-    if (cardsRemaining === 0) {
-      button.style.cursor = 'not-allowed'
-      button.style.pointerEvents = 'none'
-      button.style.backgroundColor = '#ddd'
-    }
+ function drawCards() {
+  let response = axios.get(`${baseURL}/new/shuffle`)
+  response.then(
+    res => {
+    deckIdCard= res.data.deck_id
   })
- }
+  
+  }
+
+  button.addEventListener('click', function() { 
+    let newCard = axios.get(`${baseURL}/${deckIdCard}/draw`)
+    newCard.then(
+      res => {
+        let cardsRemaining = res.data.remaining;
+        let cardSrc = res.data.cards[0].image;  
+        cardsDrawed.push(generateHTML(cardSrc))
+        listEl.innerHTML = cardsDrawed.join('\n\n')
+        if (cardsRemaining === 0) {
+          button.style.cursor = 'not-allowed'
+          button.style.pointerEvents = 'none'
+          button.style.backgroundColor = '#ddd'
+          cardSrc = null
+        }
+      }
+    )
+    
+  })
+ 
 
  drawCards()
