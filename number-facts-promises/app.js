@@ -9,9 +9,7 @@ function generateHTML(value) {
   return `<li>${value}</li>`
 }
 
-function addInnerHTML(listEl, value) {
-  return listEl.innerHTML = generateHTML(value)
-}
+
 
 /**
  * Make a request to the Numbers [API](http://numbersapi.com/) to get a fact about your favorite number. (Make sure you get back JSON by including the json query key, specific to this API. Details.  
@@ -61,11 +59,6 @@ function get4FactsonNumber(favNumber = 3, listEl) {
       }
      }
    )
-   .then(
-     data => console.log('end')
-   )
-  
-
  }
 
  getData(6, firstList)

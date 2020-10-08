@@ -1,0 +1,39 @@
+body {
+  background: #35654d;
+}
+
+.card-container {
+  display: block;
+  margin: 3em auto;
+  text-align: center;
+  max-width: 800px;
+  background: #284c33;
+  min-height: 700px;
+}
+
+button {
+  background: yellow;
+  padding: 1em 3em;
+  margin: 2em auto;
+  text-align: center;
+  border: none;
+  display: block;
+  border-radius: 3px;
+}
+
+ul {
+  list-style-type: none;
+  position: relative;
+  padding: 0;
+  margin: 2em 0;
+} 
+
+li {
+  position: relative;
+}
+
+img.img {
+  position: absolute;
+  top: 120px;
+  left: 40%;
+}
