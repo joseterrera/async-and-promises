@@ -51,11 +51,11 @@ getTwoCards()
 
 
 /**
+ * Exercise 3
  * Build an HTML page that lets you draw cards from a deck. When the page loads, go to the Deck of Cards API to create a new deck, and show a button on the page that will let you draw a card. Every time you click the button, display a new card, until there are no cards left in the deck.
  */
 
 const button = document.querySelector('button')
-const cardContainer = document.querySelector('div.card-container')
 const listEl = document.querySelector('ul')
 
 function generateHTML(srcLink){
@@ -66,44 +66,38 @@ function generateHTML(srcLink){
 }
 
 
-//Exercise 3
-/**
- * Build an HTML page that lets you draw cards from a deck. When the page loads, go to the Deck of Cards API to create a new deck, and show a button on the page that will let you draw a card. Every time you click the button, display a new card, until there are no cards left in the deck.
- */
-
-let deckIdCard = null
-let cardsRemaining = null
-let cardsDrawed = []
-
- function drawCards() {
-  let response = axios.get(`${baseURL}/new/shuffle`)
-  response.then(
-    res => {
-    deckIdCard= res.data.deck_id
-  })
-  
-  }
-
-  button.addEventListener('click', function() { 
-    let newCard = axios.get(`${baseURL}/${deckIdCard}/draw`)
-    newCard.then(
-      res => {
-        let cardsRemaining = res.data.remaining;
-        let cardSrc = res.data.cards[0].image;  
-        if (cardsRemaining === 0 || cardSrc === undefined) {
-          button.style.cursor = 'not-allowed'
-          button.style.pointerEvents = 'none'
-          button.style.backgroundColor = '#ddd'
-
-        }
-
-        cardsDrawed.push(generateHTML(cardSrc))
-        listEl.innerHTML = cardsDrawed.join('\n\n')
-    
+function drawCards(baseURL) {
+  return axios.get(`${baseURL}/new/shuffle`)
+    .then(
+      res => res.data.deck_id
+    )
+    .then(
+      deckIdCard => {
+        button.addEventListener('click', function() { 
+          let newCard = axios.get(`${baseURL}/${deckIdCard}/draw`)
+          newCard.then(
+            res => {
+              let cardsRemaining = res.data.remaining;
+              if( cardsRemaining <= 0 ) {
+                button.style.cursor = 'not-allowed'
+                button.style.pointerEvents = 'none'
+                button.style.backgroundColor = '#ddd'
+                return
+              }
+              let cardSrc = res.data.cards[0].image;  
+              const div = document.createElement('div')
+              listEl.appendChild(div)
+              div.innerHTML = generateHTML(cardSrc)
+          
+            }
+          )
+        })
       }
     )
-    
-  })
+
+}
+
  
 
- drawCards()
+
+drawCards(baseURL)
